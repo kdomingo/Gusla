@@ -11,35 +11,35 @@ class SearchEvent {
   const SearchEvent.withQuery({required String query}) : this._(query: query);
 }
 
-class SearchResults<T> extends Equatable {
+class SearchResult<T> extends Equatable {
   final T? data;
   final bool processing;
 
-  const SearchResults._({this.data, this.processing = false});
+  const SearchResult._({this.data, this.processing = false});
 
-  const SearchResults.empty() : this._();
+  const SearchResult.empty() : this._();
 
-  const SearchResults.processing() : this._(processing: true);
+  const SearchResult.processing() : this._(processing: true);
 
-  const SearchResults.withData({required T data}) : this._(data: data);
+  const SearchResult.withData({required T data}) : this._(data: data);
 
   @override
   List<Object?> get props => [data, processing];
 }
 
-class SearchBloc extends Bloc<SearchEvent, SearchResults> {
-  SearchBloc(SearchService service) : super(SearchResults.empty()) {
+class SearchBloc extends Bloc<SearchEvent, SearchResult> {
+  SearchBloc(SearchService service) : super(SearchResult.empty()) {
     on<SearchEvent>((event, emit) async {
-      emit(SearchResults.processing());
+      emit(SearchResult.processing());
 
       final query = event.query?.trim();
       if (query == null || event.query!.isEmpty) {
-        emit(SearchResults.empty());
+        emit(SearchResult.empty());
         return;
       }
 
       final result = await service.search(query);
-      emit(SearchResults.withData(data: result.data));
+      emit(SearchResult.withData(data: result.data));
     });
   }
 }

@@ -25,10 +25,7 @@ void main() {
     setUp: () => searchBloc = SearchBloc(mockService),
     build: () => searchBloc,
     act: (bloc) => bloc.add(SearchEvent.withQuery(query: "")),
-    expect: () => [
-      const SearchResults.processing(),
-      const SearchResults.empty(),
-    ],
+    expect: () => [const SearchResult.processing(), const SearchResult.empty()],
     tearDown: () => searchBloc.close(),
   );
 
@@ -37,10 +34,7 @@ void main() {
     setUp: () => searchBloc = SearchBloc(mockService),
     build: () => searchBloc,
     act: (bloc) => bloc.add(SearchEvent.withQuery(query: "")),
-    expect: () => [
-      const SearchResults.processing(),
-      const SearchResults.empty(),
-    ],
+    expect: () => [const SearchResult.processing(), const SearchResult.empty()],
     tearDown: () => searchBloc.close(),
   );
 
@@ -56,8 +50,8 @@ void main() {
     act: (bloc) => bloc.add(SearchEvent.withQuery(query: testQuery)),
     wait: const Duration(milliseconds: 300),
     expect: () => [
-      const SearchResults.processing(),
-      SearchResults.withData(data: testResult.data),
+      const SearchResult.processing(),
+      SearchResult.withData(data: testResult.data),
     ],
     verify: (bloc) => verify(mockService.search(testQuery)).called(1),
     tearDown: () => searchBloc.close(),
