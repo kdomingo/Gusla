@@ -1,4 +1,7 @@
+import 'dart:async';
+
 import 'package:bloc_test/bloc_test.dart';
+import 'package:gusla/data/models/result.dart';
 import 'package:gusla/search/search_bloc.dart';
 import 'package:gusla/service/search_service.dart';
 import 'package:mockito/annotations.dart';
@@ -14,7 +17,7 @@ void main() {
   late SearchBloc searchBloc;
 
   final testQuery = "TEST QUERY";
-  final testResult = "TEST QUERY";
+  final testResult = Result.withData([]);
   final mockService = MockSearchService();
 
   blocTest(
@@ -54,7 +57,7 @@ void main() {
     wait: const Duration(milliseconds: 300),
     expect: () => [
       const SearchResults.processing(),
-      const SearchResults.withData(data: ["1"]),
+      SearchResults.withData(data: testResult.data),
     ],
     verify: (bloc) => verify(mockService.search(testQuery)).called(1),
     tearDown: () => searchBloc.close(),

@@ -11,8 +11,8 @@ class SearchEvent {
   const SearchEvent.withQuery({required String query}) : this._(query: query);
 }
 
-class SearchResults extends Equatable {
-  final List<dynamic>? data;
+class SearchResults<T> extends Equatable {
+  final T? data;
   final bool processing;
 
   const SearchResults._({this.data, this.processing = false});
@@ -21,8 +21,7 @@ class SearchResults extends Equatable {
 
   const SearchResults.processing() : this._(processing: true);
 
-  const SearchResults.withData({required List<dynamic> data})
-    : this._(data: data);
+  const SearchResults.withData({required T data}) : this._(data: data);
 
   @override
   List<Object?> get props => [data, processing];
@@ -39,9 +38,8 @@ class SearchBloc extends Bloc<SearchEvent, SearchResults> {
         return;
       }
 
-      await service.search(query);
-
-      emit(SearchResults.withData(data: ["1"]));
+      final result = await service.search(query);
+      emit(SearchResults.withData(data: result.data));
     });
   }
 }

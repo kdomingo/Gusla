@@ -14,6 +14,7 @@ class SearchScreen extends StatelessWidget {
         actions: [IconButton(onPressed: () {}, icon: Icon(Icons.map))],
       ),
       body: Column(
+        mainAxisSize: MainAxisSize.max,
         children: [
           Padding(
             padding: const EdgeInsets.all(8.0),
