@@ -14,7 +14,6 @@ class OutlinedInputField extends TextField {
     super.textAlignVertical,
     super.textDirection,
     super.readOnly = false,
-    super.toolbarOptions,
     IconButton? suffixIcon,
   }) : super(
          decoration: InputDecoration(

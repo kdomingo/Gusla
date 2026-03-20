@@ -1,4 +1,4 @@
-import 'package:flutter_google_places_sdk/flutter_google_places_sdk.dart';
+import 'package:google_places_sdk_plus/google_places_sdk_plus.dart';
 
 import '../data/models/result.dart';
 import '../repository/search_repository.dart';

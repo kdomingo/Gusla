@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_google_places_sdk/flutter_google_places_sdk.dart';
+import 'package:google_places_sdk_plus/google_places_sdk_plus.dart';
 import 'package:gusla/repository/search_repository.dart';
 import 'package:gusla/search/search_bloc.dart';
 import 'package:gusla/search/search_screen.dart';

@@ -1,4 +1,4 @@
-import 'package:flutter_google_places_sdk/flutter_google_places_sdk.dart';
+import 'package:google_places_sdk_plus/google_places_sdk_plus.dart';
 
 abstract class SearchRepository {
   Future<dynamic> search(String? query);
