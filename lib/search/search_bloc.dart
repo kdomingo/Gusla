@@ -1,14 +1,16 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:gusla/data/models/query.dart';
 
 import '../service/search_service.dart';
 
 class SearchEvent {
-  final String? query;
+  final QueryOptions? query;
 
   const SearchEvent._({this.query});
 
-  const SearchEvent.withQuery({required String query}) : this._(query: query);
+  const SearchEvent.withQuery({required QueryOptions query})
+    : this._(query: query);
 }
 
 class SearchResult<T> extends Equatable {
@@ -31,14 +33,21 @@ class SearchBloc extends Bloc<SearchEvent, SearchResult> {
   SearchBloc(SearchService service) : super(SearchResult.empty()) {
     on<SearchEvent>((event, emit) async {
       emit(SearchResult.processing());
+      final query = event.query;
 
-      final query = event.query?.trim();
-      if (query == null || event.query!.isEmpty) {
+      final place = query?.place?.trim();
+      if (query == null || place == null || place.isEmpty) {
         emit(SearchResult.empty());
         return;
       }
 
       final result = await service.search(query);
+
+      if (!result.success) {
+        emit(SearchResult.empty());
+        return;
+      }
+
       emit(SearchResult.withData(data: result.data));
     });
   }

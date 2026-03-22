@@ -1,18 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:google_places_sdk_plus/google_places_sdk_plus.dart';
+import 'package:gusla/di/key_provider.dart';
 import 'package:gusla/repository/search_repository.dart';
 import 'package:gusla/search/search_bloc.dart';
 import 'package:gusla/search/search_screen.dart';
+import 'package:gusla/service/location_service.dart';
 import 'package:gusla/service/search_service.dart';
 import 'package:gusla/util/strings.dart';
 import 'package:provider/provider.dart';
+
+import 'di/datasource.dart';
 
 void main() {
   runApp(
     MultiProvider(
       providers: [
-        Provider(create: (context) => FlutterGooglePlacesSdk("")),
+        Provider(create: (context) => KeyProviderImpl() as KeyProvider),
+        Provider(
+          create: (context) =>
+              GooglePlacesSdkSource(keyProvider: context.read()) as Datasource,
+        ),
         Provider(
           create: (context) =>
               SearchRepositoryImpl(datasource: context.read())
@@ -22,6 +29,7 @@ void main() {
           create: (context) =>
               SearchServiceImpl(repository: context.read()) as SearchService,
         ),
+        Provider(create: (context) => LocationServiceImpl() as LocationService),
       ],
       child: MultiBlocProvider(
         providers: [

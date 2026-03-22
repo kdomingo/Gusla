@@ -1,10 +1,11 @@
 import 'package:google_places_sdk_plus/google_places_sdk_plus.dart';
+import 'package:gusla/data/models/query.dart';
 
 import '../data/models/result.dart';
 import '../repository/search_repository.dart';
 
 abstract class SearchService {
-  Future<Result> search(String? query);
+  Future<Result> search(QueryOptions query);
 }
 
 class SearchServiceImpl implements SearchService {
@@ -14,13 +15,17 @@ class SearchServiceImpl implements SearchService {
     : _repository = repository;
 
   @override
-  Future<Result> search(String? query) async {
-    final result = await _repository.search(query);
+  Future<Result> search(QueryOptions query) async {
+    final result = await _repository.search(query).onError((error, stackTrace) {
+      return null;
+    });
+
     if (null == result) {
-      return Result.error(result.message ?? "");
+      return Result.error("Could not find places.");
     }
+
     return Result.withData(
-      (result as FindAutocompletePredictionsResponse).predictions,
+      (result as FindAutocompletePredictionsResponse?)?.predictions,
     );
   }
 }
